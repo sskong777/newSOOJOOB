@@ -1,8 +1,15 @@
 package freesia.soojoob.user.entity;
 
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
 @Entity
+@Getter
+@NoArgsConstructor( access = AccessLevel.PROTECTED)
 public class User {
 
     @Id
@@ -25,4 +32,16 @@ public class User {
     private int weight;
 
     private int height;
+
+    @Builder
+    public User (String email, String username, String password) {
+        this.email = email;
+        this.username = username;
+        this.password = encodingPassword(password);
+    }
+
+    private String encodingPassword(String password) {
+        return password;
+    }
+
 }
