@@ -21,4 +21,5 @@ public class UserController {
         userService.addUser(signUpDto);
         return new ResponseEntity<>("회원가입에 성공하였습니다 !", HttpStatus.OK);
     }
+
 }
