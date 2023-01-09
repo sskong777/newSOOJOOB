@@ -2,6 +2,7 @@ package freesia.soojoob.user.service;
 
 import freesia.soojoob.user.dto.SignUpDto;
 import freesia.soojoob.user.dto.UpdateUser;
+import freesia.soojoob.user.dto.UserInfo;
 import freesia.soojoob.user.entity.User;
 import freesia.soojoob.user.exception.AlreadyExistEmailException;
 import freesia.soojoob.user.exception.AlreadyExistUsernameException;
@@ -50,11 +51,19 @@ public class UserServiceImpl implements UserService {
         //
         user.update(info);
         userRepository.save(user);
-        return user.toInfoDto();
+        return user.toUpdateDto();
     }
 
     @Override
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
+    }
+
+    @Override
+    public UserInfo findUser(Long id) {
+        User user = userRepository.findById(id).orElseThrow( ()-> {
+            throw new NoExistUserException();
+        });
+        return user.toInfoDto();
     }
 }

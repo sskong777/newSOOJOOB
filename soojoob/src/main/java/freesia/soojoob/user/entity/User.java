@@ -1,6 +1,7 @@
 package freesia.soojoob.user.entity;
 
 import freesia.soojoob.user.dto.UpdateUser;
+import freesia.soojoob.user.dto.UserInfo;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -55,7 +56,7 @@ public class User {
         this.gender = info.getGender();
     }
 
-    public UpdateUser toInfoDto(){
+    public UpdateUser toUpdateDto(){
         return UpdateUser.builder()
                 .email(this.email)
                 .username(this.username)
@@ -67,4 +68,11 @@ public class User {
                 .build();
     }
 
+    public UserInfo toInfoDto(){
+        return UserInfo.builder()
+                .id(this.id)
+                .email(this.email)
+                .username(this.username)
+                .build();
+    }
 }
