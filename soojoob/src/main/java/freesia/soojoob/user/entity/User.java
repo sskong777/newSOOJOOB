@@ -1,5 +1,6 @@
 package freesia.soojoob.user.entity;
 
+import freesia.soojoob.user.dto.UpdateUser;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -9,7 +10,7 @@ import javax.persistence.*;
 
 @Entity
 @Getter
-@NoArgsConstructor( access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User {
 
     @Id
@@ -42,6 +43,28 @@ public class User {
 
     private String encodingPassword(String password) {
         return password;
+    }
+
+    public void update(UpdateUser info) {
+        this.weight = info.getWeight();
+        this.height = info.getHeight();
+        this.age = info.getAge();
+        this.region = info.getRegion();
+        this.username = info.getUsername();
+        this.email = info.getEmail();
+        this.gender = info.getGender();
+    }
+
+    public UpdateUser toInfoDto(){
+        return UpdateUser.builder()
+                .email(this.email)
+                .username(this.username)
+                .weight(this.weight)
+                .height(this.height)
+                .age(this.age)
+                .region(this.region)
+                .gender(this.gender)
+                .build();
     }
 
 }

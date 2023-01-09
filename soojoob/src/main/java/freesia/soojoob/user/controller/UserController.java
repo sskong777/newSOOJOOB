@@ -1,11 +1,14 @@
 package freesia.soojoob.user.controller;
 
+import freesia.soojoob.user.dto.SelectUser;
 import freesia.soojoob.user.dto.SignUpDto;
+import freesia.soojoob.user.dto.UpdateUser;
 import freesia.soojoob.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,7 +22,14 @@ public class UserController {
     @PostMapping
     public ResponseEntity<String> signUpUser(SignUpDto signUpDto) {
         userService.addUser(signUpDto);
-        return new ResponseEntity<>("회원가입에 성공하였습니다 !", HttpStatus.OK);
+        return new ResponseEntity<>("회원가입에 성공하였습니다 !", HttpStatus.CREATED);
     }
+
+    @PutMapping("/update")
+    public ResponseEntity<UpdateUser> updateUser(UpdateUser updateUser) {
+        return new ResponseEntity<>(userService.editUser(updateUser), HttpStatus.OK);
+    }
+
+
 
 }
