@@ -7,10 +7,7 @@ import freesia.soojoob.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,6 +27,9 @@ public class UserController {
         return new ResponseEntity<>(userService.editUser(updateUser), HttpStatus.OK);
     }
 
-
-
+    @DeleteMapping
+    public ResponseEntity<String> deleteUser() {
+        userService.deleteUser(1L);
+        return new ResponseEntity<>("회원탈퇴하였습니다", HttpStatus.NO_CONTENT);
+    }
 }

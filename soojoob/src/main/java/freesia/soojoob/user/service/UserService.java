@@ -7,4 +7,6 @@ public interface UserService {
     void addUser(SignUpDto signUpDto);
 
     UpdateUser editUser(UpdateUser updateUser);
+
+    void deleteUser(Long id);
 }
