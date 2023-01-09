@@ -1,7 +1,6 @@
 package freesia.soojoob.record.entity;
 
 import lombok.Getter;
-
 import javax.persistence.*;
 
 @Entity
