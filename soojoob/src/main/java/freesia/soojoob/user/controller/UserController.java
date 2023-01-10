@@ -1,5 +1,6 @@
 package freesia.soojoob.user.controller;
 
+import freesia.soojoob.global.CommonResponse;
 import freesia.soojoob.user.dto.SelectUser;
 import freesia.soojoob.user.dto.SignUpDto;
 import freesia.soojoob.user.dto.UpdateUser;
@@ -16,28 +17,37 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 @RequestMapping("/user")
 public class UserController {
-
     private final UserService userService;
 
     @PostMapping
-    public ResponseEntity<String> signUpUser(@RequestBody SignUpDto signUpDto) {
+    public ResponseEntity<CommonResponse> signUpUser(@RequestBody SignUpDto signUpDto) {
         userService.addUser(signUpDto);
-        return new ResponseEntity<>("회원가입에 성공하였습니다 !", HttpStatus.CREATED);
+        return ResponseEntity.ok(
+                CommonResponse.getSuccessResponse(getStatusCode(HttpStatus.CREATED), "회원가입에 성공하였습니다 !","")
+        );
     }
 
     @PutMapping("/update")
-    public ResponseEntity<UpdateUser> updateUser(@RequestBody UpdateUser updateUser) {
-        return new ResponseEntity<>(userService.editUser(updateUser), HttpStatus.OK);
+    public ResponseEntity<CommonResponse> updateUser(@RequestBody UpdateUser updateUser) {
+        return ResponseEntity.ok(
+                CommonResponse.getSuccessResponse(getStatusCode(HttpStatus.OK), "회원 정보를 수정했습니다", userService.editUser(updateUser))
+        );
     }
 
     @DeleteMapping
-    public ResponseEntity<String> deleteUser() {
+    public ResponseEntity<CommonResponse> deleteUser() {
         userService.deleteUser(1L);
-        return new ResponseEntity<>("회원탈퇴하였습니다", HttpStatus.NO_CONTENT);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<UserInfo> findUser(@PathVariable(name = "userId") Long id) {
-        return new ResponseEntity<>(userService.findUser(id), HttpStatus.OK);
+    public ResponseEntity<CommonResponse> findUser(@PathVariable(name = "userId") Long id) {
+        return ResponseEntity.ok(
+                CommonResponse.getSuccessResponse(getStatusCode(HttpStatus.OK), "ID에 해당하는 유저정보를 전송했습니다 !", userService.findUser(id))
+        );
+    }
+
+    private int getStatusCode(HttpStatus status) {
+        return status.value();
     }
 }
