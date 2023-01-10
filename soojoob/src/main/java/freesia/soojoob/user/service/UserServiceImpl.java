@@ -29,13 +29,13 @@ public class UserServiceImpl implements UserService {
     }
 
     private void checkDuplicateEmail(String email) {
-        if (!userRepository.existsByEmail(email)) {
+        if (userRepository.existsByEmail(email)) {
             throw new AlreadyExistEmailException();
         }
     }
 
     private void checkDuplicateUsername(String username) {
-        if (!userRepository.existsByUsername(username)) {
+        if (userRepository.existsByUsername(username)) {
             throw new AlreadyExistUsernameException();
         }
     }
