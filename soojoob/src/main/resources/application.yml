@@ -1,18 +1,34 @@
+## mysql ??
 spring:
-  security:
-    user:
-      name: user
-      password: 1234
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/newsoojoob?serverTimezone=Asia/Seoul
+    url: jdbc:mysql://localhost:3306/newSOOJOOB?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     username: root
-    password: 1234
+    password:
 
   jpa:
+    defer-datasource-initialization: true
     hibernate:
-      ddl-auto: create #create update none
+      ddl-auto: create
       naming:
-        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-    show-sql: true
+        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+      use-new-id-generator-mappings: false
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+    open-in-view: false
+    generate-ddl: false
+    database: mysql
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
 
+# ?? ?? ??
+logging:
+  level:
+    # hibernate ? ??? ?? ??? debug??? ??
+    # jpa hibernate? ???? sql? ??? ??? ???? ?? ??
+    org.hibernate.sql: debug
+    root: info
