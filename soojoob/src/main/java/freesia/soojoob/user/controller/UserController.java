@@ -20,13 +20,13 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    public ResponseEntity<String> signUpUser(SignUpDto signUpDto) {
+    public ResponseEntity<String> signUpUser(@RequestBody SignUpDto signUpDto) {
         userService.addUser(signUpDto);
         return new ResponseEntity<>("회원가입에 성공하였습니다 !", HttpStatus.CREATED);
     }
 
     @PutMapping("/update")
-    public ResponseEntity<UpdateUser> updateUser(UpdateUser updateUser) {
+    public ResponseEntity<UpdateUser> updateUser(@RequestBody UpdateUser updateUser) {
         return new ResponseEntity<>(userService.editUser(updateUser), HttpStatus.OK);
     }
 

@@ -23,7 +23,7 @@ public class User {
 
     private String username;
 
-    private int age;
+    private Integer age;
 
     private String email;
 
@@ -31,9 +31,9 @@ public class User {
 
     private String region;
 
-    private int weight;
+    private Integer weight;
 
-    private int height;
+    private Integer height;
 
     @Builder
     public User (String email, String username, String password) {

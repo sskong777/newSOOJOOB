@@ -64,6 +64,8 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(id).orElseThrow( ()-> {
             throw new NoExistUserException();
         });
+        System.out.println(user.getAge());
+        System.out.println(user.getEmail());
         return user.toInfoDto();
     }
 }

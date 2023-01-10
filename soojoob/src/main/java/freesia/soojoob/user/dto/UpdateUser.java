@@ -4,20 +4,22 @@ import freesia.soojoob.user.entity.GENDER;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class UpdateUser {
     private String username;
     private String email;
-    private int age;
+    private Integer age;
     private GENDER gender;
     private String region;
-    private int weight;
-    private int height;
+    private Integer weight;
+    private Integer height;
 
     @Builder
-    private UpdateUser(String username, String email, int age, GENDER gender,
-                       String region, int weight, int height) {
+    private UpdateUser(String username, String email, Integer age, GENDER gender,
+                       String region, Integer weight, Integer height) {
         this.weight = weight;
         this.height = height;
         this.age = age;
