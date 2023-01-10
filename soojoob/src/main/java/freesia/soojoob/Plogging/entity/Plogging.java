@@ -1,12 +1,17 @@
 package freesia.soojoob.Plogging.entity;
 
-import lombok.Getter;
+
+import lombok.*;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
+@Builder
 @Table(name = "ploggings")
+@RequiredArgsConstructor
+@AllArgsConstructor
 public class Plogging {
 
     @Id
@@ -15,7 +20,7 @@ public class Plogging {
     private int id;
 
     @Column(name = "date_time")
-    private LocalDateTime dateTime;
+    private String dateTime;
 
     @Column(name = "distance")
     private Float distance;
@@ -28,7 +33,5 @@ public class Plogging {
 
     @Column(name = "plogging_img")
     private String ploggingImg;
-
-
 
 }
