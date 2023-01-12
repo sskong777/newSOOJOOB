@@ -2,6 +2,7 @@ package freesia.soojoob.user;
 
 import freesia.soojoob.user.dto.SignUpDto;
 import freesia.soojoob.user.dto.UpdateUser;
+import freesia.soojoob.user.dto.UserInfo;
 import freesia.soojoob.user.entity.User;
 import freesia.soojoob.user.repository.UserRepository;
 import freesia.soojoob.user.service.UserService;
@@ -60,4 +61,19 @@ public class UserServiceTest {
         Assertions.assertThat(userService.editUser(info).getUsername())
                 .isEqualTo(info.getUsername());
     }
+
+    @Test
+    @DisplayName("Pk로 회원정보 조회 성공")
+    void pk로_회원정보_조회_성공() {
+        User user = User.builder()
+                .email("aaa@aa.aa")
+                .username("유저네임")
+                .password("password")
+                .build();
+
+        Mockito.when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+
+        Assertions.assertThat(userService.findUser(1L).getUsername()).isEqualTo("유저네임");
+    }
+
 }
