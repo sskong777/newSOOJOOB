@@ -1,6 +1,7 @@
 package freesia.soojoob.user;
 
 import freesia.soojoob.user.dto.SignUpDto;
+import freesia.soojoob.user.dto.UpdateUser;
 import freesia.soojoob.user.entity.User;
 import freesia.soojoob.user.repository.UserRepository;
 import freesia.soojoob.user.service.UserService;
@@ -14,6 +15,9 @@ import org.mockito.Mockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.Optional;
+
+@DisplayName("유저 서비스")
 @ExtendWith(SpringExtension.class)
 public class UserServiceTest {
 
@@ -37,5 +41,23 @@ public class UserServiceTest {
         userService.addUser(signUpDto);
 
         Assertions.assertThat(userRepository.save(user)).isEqualTo(user);
+    }
+
+    @Test
+    @DisplayName("회원정보 수정 성공")
+    void 회원정보_수정_성공() {
+        User user = User.builder()
+                .email("aaa@aa.aa")
+                .username("유저네임")
+                .password("password")
+                .build();
+        UpdateUser info = UpdateUser.builder()
+                .username("유저네임2")
+                .build();
+
+        Mockito.when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+
+        Assertions.assertThat(userService.editUser(info).getUsername())
+                .isEqualTo(info.getUsername());
     }
 }
