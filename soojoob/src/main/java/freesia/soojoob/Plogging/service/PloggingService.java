@@ -3,6 +3,7 @@ package freesia.soojoob.Plogging.service;
 import freesia.soojoob.Plogging.dto.PloggingReqDto;
 import freesia.soojoob.Plogging.dto.PloggingResDto;
 import freesia.soojoob.Plogging.entity.Plogging;
+import freesia.soojoob.Plogging.exception.NoExistPloggingException;
 import freesia.soojoob.Plogging.repository.PloggingRepository;
 import freesia.soojoob.user.entity.User;
 import freesia.soojoob.user.exception.NoExistUserException;
@@ -43,7 +44,7 @@ public class PloggingService {
 
     public PloggingResDto detailPlogging(int plogging_id) {
         Plogging plogging = ploggingRepository.findPloggingById(plogging_id).orElseThrow(
-                ()->new RuntimeException()
+                ()->new NoExistPloggingException()
         );
         PloggingResDto data = new PloggingResDto(plogging);
         return data;
@@ -63,7 +64,7 @@ public class PloggingService {
 
     public void deletePlogging(int plogging_id) {
         Plogging plogging = ploggingRepository.findPloggingById(plogging_id).orElseThrow(
-                ()->new RuntimeException()
+                ()->new NoExistPloggingException()
         );
         ploggingRepository.delete(plogging);
     }

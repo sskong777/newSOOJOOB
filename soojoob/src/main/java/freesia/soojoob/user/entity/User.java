@@ -1,5 +1,8 @@
 package freesia.soojoob.user.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import freesia.soojoob.Plogging.entity.Plogging;
+import freesia.soojoob.badge.entitiy.UserBadge;
 import freesia.soojoob.user.dto.UpdateUser;
 import freesia.soojoob.user.dto.UserInfo;
 import lombok.AccessLevel;
@@ -8,6 +11,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import static javax.persistence.CascadeType.ALL;
 
 @Entity
 @Getter
@@ -34,6 +41,12 @@ public class User {
     private Integer weight;
 
     private Integer height;
+
+    @OneToMany(mappedBy = "user", cascade = ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<UserBadge> userBadges = new ArrayList<>();
+
+    @OneToMany(mappedBy = "ploggingUser", orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Plogging> ploggingList = new ArrayList<>();
 
     @Builder
     public User (String email, String username, String password) {

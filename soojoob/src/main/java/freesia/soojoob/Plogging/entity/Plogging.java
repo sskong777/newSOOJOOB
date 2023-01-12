@@ -1,6 +1,7 @@
 package freesia.soojoob.Plogging.entity;
 
 
+import freesia.soojoob.user.entity.User;
 import lombok.*;
 
 import javax.persistence.*;
@@ -33,5 +34,9 @@ public class Plogging {
 
     @Column(name = "plogging_img")
     private String ploggingImg;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User ploggingUser;
 
 }
