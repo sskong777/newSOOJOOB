@@ -4,6 +4,9 @@ import freesia.soojoob.Plogging.dto.PloggingReqDto;
 import freesia.soojoob.Plogging.dto.PloggingResDto;
 import freesia.soojoob.Plogging.entity.Plogging;
 import freesia.soojoob.Plogging.repository.PloggingRepository;
+import freesia.soojoob.user.entity.User;
+import freesia.soojoob.user.exception.NoExistUserException;
+import freesia.soojoob.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -17,6 +20,8 @@ import java.util.stream.Collectors;
 public class PloggingService {
 
     private final PloggingRepository ploggingRepository;
+    private final UserRepository userRepository;
+
 
     public PloggingResDto createPlogging(PloggingReqDto ploggingReqDto){
 
@@ -30,9 +35,36 @@ public class PloggingService {
         return data;
     }
 
-    public List<PloggingResDto> getUserPlogging() {
+    public List<PloggingResDto> getAllPlogging() {
 //        List<Plogging> ploggingList = ploggingRepository.findAll();
         List<PloggingResDto> data = ploggingRepository.findAll().stream().map(PloggingResDto::new).collect(Collectors.toList());
         return data;
+    }
+
+    public PloggingResDto detailPlogging(int plogging_id) {
+        Plogging plogging = ploggingRepository.findPloggingById(plogging_id).orElseThrow(
+                ()->new RuntimeException()
+        );
+        PloggingResDto data = new PloggingResDto(plogging);
+        return data;
+    }
+
+
+    public List<PloggingResDto> getUserPlogging(int user_id) {
+        User user = userRepository.findById(1L).orElseThrow( ()-> {
+                    throw new NoExistUserException();
+                }
+        );
+        List<PloggingResDto> data = ploggingRepository.findAll().stream().map(PloggingResDto::new).collect(Collectors.toList());
+        return data;
+
+    }
+
+
+    public void deletePlogging(int plogging_id) {
+        Plogging plogging = ploggingRepository.findPloggingById(plogging_id).orElseThrow(
+                ()->new RuntimeException()
+        );
+        ploggingRepository.delete(plogging);
     }
 }
