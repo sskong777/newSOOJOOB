@@ -4,12 +4,12 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/newSOOJOOB?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     username: root
-    password: tjrguswkd02!
+    password:
 
   jpa:
     defer-datasource-initialization: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
       naming:
         physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
       use-new-id-generator-mappings: false
