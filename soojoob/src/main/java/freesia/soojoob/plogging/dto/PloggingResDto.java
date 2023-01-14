@@ -1,6 +1,6 @@
-package freesia.soojoob.Plogging.dto;
+package freesia.soojoob.plogging.dto;
 
-import freesia.soojoob.Plogging.entity.Plogging;
+import freesia.soojoob.plogging.entity.Plogging;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 

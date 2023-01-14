@@ -1,10 +1,10 @@
-package freesia.soojoob.Plogging.service;
+package freesia.soojoob.plogging.service;
 
-import freesia.soojoob.Plogging.dto.PloggingReqDto;
-import freesia.soojoob.Plogging.dto.PloggingResDto;
-import freesia.soojoob.Plogging.entity.Plogging;
-import freesia.soojoob.Plogging.exception.NoExistPloggingException;
-import freesia.soojoob.Plogging.repository.PloggingRepository;
+import freesia.soojoob.plogging.dto.PloggingReqDto;
+import freesia.soojoob.plogging.dto.PloggingResDto;
+import freesia.soojoob.plogging.entity.Plogging;
+import freesia.soojoob.plogging.exception.NoExistPloggingException;
+import freesia.soojoob.plogging.repository.PloggingRepository;
 import freesia.soojoob.user.entity.User;
 import freesia.soojoob.user.exception.NoExistUserException;
 import freesia.soojoob.user.repository.UserRepository;
@@ -56,7 +56,7 @@ public class PloggingService {
                     throw new NoExistUserException();
                 }
         );
-        List<PloggingResDto> data = ploggingRepository.findAll().stream().map(PloggingResDto::new).collect(Collectors.toList());
+        List<PloggingResDto> data = user.getPloggingList().stream().map(PloggingResDto::new).collect(Collectors.toList());
         return data;
 
     }
@@ -67,5 +67,14 @@ public class PloggingService {
                 ()->new NoExistPloggingException()
         );
         ploggingRepository.delete(plogging);
+    }
+
+    public List<PloggingResDto> getCurrentUserPlogging() {
+        User user = userRepository.findById(1L).orElseThrow( ()-> {
+                    throw new NoExistUserException();
+                }
+        );
+        List<PloggingResDto> data = user.getPloggingList().stream().map(PloggingResDto::new).collect(Collectors.toList());
+        return data;
     }
 }

@@ -1,11 +1,8 @@
-package freesia.soojoob.Plogging.dto;
+package freesia.soojoob.plogging.dto;
 
-import freesia.soojoob.Plogging.entity.Plogging;
-import lombok.Builder;
+import freesia.soojoob.plogging.entity.Plogging;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-
-import java.time.LocalDateTime;
 
 @Data
 @RequiredArgsConstructor
