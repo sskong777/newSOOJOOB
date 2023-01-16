@@ -2,7 +2,6 @@ package freesia.soojoob.user;
 
 import freesia.soojoob.user.dto.SignUpDto;
 import freesia.soojoob.user.dto.UpdateUser;
-import freesia.soojoob.user.dto.UserInfo;
 import freesia.soojoob.user.entity.User;
 import freesia.soojoob.user.repository.UserRepository;
 import freesia.soojoob.user.service.UserService;
