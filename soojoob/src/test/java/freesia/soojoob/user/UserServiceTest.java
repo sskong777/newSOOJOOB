@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Optional;
@@ -75,4 +76,17 @@ public class UserServiceTest {
         Assertions.assertThat(userService.findUser(1L).getUsername()).isEqualTo("유저네임");
     }
 
+    @Test
+    @DisplayName("Security 로그인 성공")
+    @WithMockUser
+    void 로그인_성공() {
+
+    }
+
+    @Test
+    @DisplayName("현재 회원조회 성공")
+    @WithMockUser
+    void 현재_회원조회_성공() {
+
+    }
 }
