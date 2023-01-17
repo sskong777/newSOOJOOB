@@ -10,7 +10,10 @@ import freesia.soojoob.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Service("ArticleService")
@@ -23,7 +26,7 @@ public class ArticleServiceImpl implements ArticleService {
     private UserRepository userRepository;
 
     @Override
-    public List getArticleList() {
+    public List getArticles() {
         return articleRepository.findAll();
     }
 
@@ -31,29 +34,47 @@ public class ArticleServiceImpl implements ArticleService {
     public Article createArticle(ArticlePostReq articlePostReq, Long userId) {
         User user = userRepository.findById(userId).get();
         LocalDateTime today = LocalDateTime.now();
-        String url = null;
 
         Article article = Article.builder()
                 .user(user)
                 .articleTitle(articlePostReq.getArticleTitle())
                 .articleContent(articlePostReq.getArticleContent())
-                .articleImage(url)
+                .articleImage(articlePostReq.getArticleImage())
+                .articleDate(getTimestamp(today))
                 .build();
         return articleRepository.save(article);
     }
 
     @Override
     public ArticleOne getArticle(Long articleId) {
-        return null;
+        Article article = articleRepository.findById(articleId).get();
+
+        String articleTitle = article.getArticleTitle();
+        String articleContent = article.getArticleContent();
+        String articleDate =new SimpleDateFormat("yyyy/MM/dd a KK:mm").format(new Date(article.getArticleDate() * 1000));
+        String articleImage = article.getArticleImage();
+
+        return new ArticleOne(articleId, articleTitle, articleContent, articleDate, articleImage);
     }
 
     @Override
     public void deleteArticle(Long articleId) {
+        Article article = articleRepository.findById(articleId).get();
 
+        articleRepository.deleteById(articleId);
     }
 
     @Override
     public void patchArticle(ArticlePatchReq articlePatchReq, Long articleId) {
+        Article article = articleRepository.findById(articleId).get();
 
+        Article patchArticle = ArticlePatchReq.ofPatch(article, articlePatchReq.getArticleTitle(),
+                articlePatchReq.getArticleContent(), articlePatchReq.getArticleImage());
+
+        articleRepository.save(patchArticle);
+    }
+
+    private Long getTimestamp(LocalDateTime today) {
+        return Timestamp.valueOf(today).getTime() / 1000;
     }
 }

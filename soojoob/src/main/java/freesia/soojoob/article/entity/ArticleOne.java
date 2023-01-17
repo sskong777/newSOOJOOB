@@ -10,11 +10,12 @@ public class ArticleOne {
 
     private String articleContent;
 
-    private Long articleDate;
-
     private String articleImage;
 
-    public ArticleOne(Long articleId, String articleTitle, String articleContent, String articleImage, Long articleDate) {
+    private String articleDate;
+
+
+    public ArticleOne(Long articleId, String articleTitle, String articleContent, String articleImage, String articleDate) {
         this.articleId = articleId;
         this.articleTitle = articleTitle;
         this.articleContent = articleContent;

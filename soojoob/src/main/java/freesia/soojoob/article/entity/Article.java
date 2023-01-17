@@ -37,7 +37,7 @@ public class Article {
         this.user = user;
         this.articleTitle = articleTitle;
         this.articleContent = articleContent;
-        this.articleImage = articleImage;
         this.articleDate = articleDate;
+        this.articleImage = articleImage;
     }
 }
