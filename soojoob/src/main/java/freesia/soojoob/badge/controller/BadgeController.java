@@ -3,6 +3,7 @@ package freesia.soojoob.badge.controller;
 import freesia.soojoob.badge.dto.BadgeResDto;
 import freesia.soojoob.badge.dto.UserBadgeResDto;
 import freesia.soojoob.badge.service.BadgeService;
+import freesia.soojoob.global.CommonResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -20,10 +21,16 @@ public class BadgeController {
     private final BadgeService badgeService;
 
     @GetMapping("")
-    public ResponseEntity<List<BadgeResDto>> getMyBadges(){
+    public ResponseEntity<CommonResponse> getMyBadges(){
 
         List<BadgeResDto> data = badgeService.getMyBadges();
-        return new ResponseEntity<>(data, HttpStatus.OK);    }
+//        return new ResponseEntity<>(data, HttpStatus.OK);
+        return ResponseEntity.ok(
+                CommonResponse.getSuccessResponse(getStatusCode(HttpStatus.CREATED), "내 뱃지 조회에 성공하였습니다.",data)
+        );
+
+    }
+
 
 
     @GetMapping("/no")
@@ -40,5 +47,8 @@ public class BadgeController {
         return new ResponseEntity<>(data,HttpStatus.CREATED);
     }
 
+    private int getStatusCode(HttpStatus status) {
+        return status.value();
+    }
 }
 

@@ -3,11 +3,13 @@ package freesia.soojoob.badge.entitiy;
 
 import freesia.soojoob.user.entity.User;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
+@RequiredArgsConstructor
 public class UserBadge {
 
     @Id

@@ -39,6 +39,7 @@ public class BadgeService {
         return data;
     }
 
+    @Transactional
     public List<BadgeResDto> getNoBadges() {
         User user = userRepository.findById(1L).orElseThrow( ()-> {
                     throw new NoExistUserException();
