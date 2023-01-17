@@ -1,7 +1,6 @@
 package freesia.soojoob.user.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import freesia.soojoob.Plogging.entity.Plogging;
+import freesia.soojoob.plogging.entity.Plogging;
 import freesia.soojoob.badge.entitiy.UserBadge;
 import freesia.soojoob.user.dto.UpdateUser;
 import freesia.soojoob.user.dto.UserInfo;

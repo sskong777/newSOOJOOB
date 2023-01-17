@@ -1,6 +1,6 @@
-package freesia.soojoob.Plogging.repository;
+package freesia.soojoob.plogging.repository;
 
-import freesia.soojoob.Plogging.entity.Plogging;
+import freesia.soojoob.plogging.entity.Plogging;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
