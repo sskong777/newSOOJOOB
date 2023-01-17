@@ -33,6 +33,9 @@ public class PloggingService {
         // entity to dto
         PloggingResDto data = new PloggingResDto(plogging);
 
+        // 기록 처리
+
+
         return data;
     }
 

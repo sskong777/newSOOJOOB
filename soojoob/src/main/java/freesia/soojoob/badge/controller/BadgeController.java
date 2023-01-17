@@ -1,6 +1,7 @@
 package freesia.soojoob.badge.controller;
 
 import freesia.soojoob.badge.dto.BadgeResDto;
+import freesia.soojoob.badge.dto.UserBadgeResDto;
 import freesia.soojoob.badge.service.BadgeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,9 +34,9 @@ public class BadgeController {
 
 
     @PostMapping("/{userId}/{badgeId}")
-    public ResponseEntity<BadgeResDto> addUserBadge(
+    public ResponseEntity<UserBadgeResDto> addUserBadge(
             @PathVariable(name="userId") Long userId, @PathVariable(name = "badgeId") int badgeId){
-        BadgeResDto data = badgeService.addUserBadge(userId,badgeId);
+        UserBadgeResDto data = badgeService.addUserBadge(userId,badgeId);
         return new ResponseEntity<>(data,HttpStatus.CREATED);
     }
 
