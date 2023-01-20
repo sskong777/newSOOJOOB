@@ -35,7 +35,7 @@ public class ArticleController {
     }
 
     // 2. 게시글 개별 조회 GET
-    @GetMapping("/get")
+    @GetMapping("/{articleId}")
     public ResponseEntity<ArticleGetRes> getArticle(Long articleId) {
         ArticleOne articleOne = articleService.getArticle(articleId);
 
@@ -52,7 +52,7 @@ public class ArticleController {
     }
 
     // 4. 게시글 수정 PATCH
-    @PatchMapping
+    @PatchMapping("/{articleId}")
     public ResponseEntity<BaseResponseBody> patchEvent(@ModelAttribute ArticlePatchReq articlePatchReq, Long articleId) {
         articleService.patchArticle(articlePatchReq, articleId);
 
@@ -60,7 +60,7 @@ public class ArticleController {
     }
 
     // 5. 이벤트 삭제 DELETE
-    @DeleteMapping
+    @DeleteMapping("/{articleId}")
     public ResponseEntity<BaseResponseBody> deleteArticle(Long articleId) {
         articleService.deleteArticle(articleId);
 

@@ -51,7 +51,7 @@ public class ArticleServiceImpl implements ArticleService {
 
         String articleTitle = article.getArticleTitle();
         String articleContent = article.getArticleContent();
-        String articleDate =new SimpleDateFormat("yyyy/MM/dd a KK:mm").format(new Date(article.getArticleDate() * 1000));
+        String articleDate = new SimpleDateFormat("yyyy/MM/dd a KK:mm").format(new Date(article.getArticleDate() * 1000));
         String articleImage = article.getArticleImage();
 
         return new ArticleOne(articleId, articleTitle, articleContent, articleDate, articleImage);

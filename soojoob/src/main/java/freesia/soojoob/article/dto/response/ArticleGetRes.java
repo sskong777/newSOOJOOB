@@ -13,7 +13,7 @@ public class ArticleGetRes extends BaseResponseBody {
 
     private String articleContent;
 
-    private Long articleDate;
+    private String articleDate;
 
     private String articleImage;
 
@@ -31,7 +31,7 @@ public class ArticleGetRes extends BaseResponseBody {
 
     @Builder
     public ArticleGetRes(Integer statusCode, String message, Long articleId, String articleTitle,
-                         String articleContent, Long articleDate, String articleImage) {
+                         String articleContent, String articleDate, String articleImage) {
         super(statusCode, message);
         this.articleId = articleId;
         this.articleTitle = articleTitle;
