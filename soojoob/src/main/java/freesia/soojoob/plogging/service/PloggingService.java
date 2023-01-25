@@ -25,9 +25,14 @@ public class PloggingService {
 
 
     public PloggingResDto createPlogging(PloggingReqDto ploggingReqDto){
+        // 임시 유저
+        User user = userRepository.findById(1L).orElseThrow( ()-> {
+                    throw new NoExistUserException();
+                }
+        );
 
         // entitiy to dto
-        Plogging plogging = ploggingReqDto.toEntity();
+        Plogging plogging = ploggingReqDto.toEntity(user);
         // DB 저장
         ploggingRepository.save(plogging);
         // entity to dto
