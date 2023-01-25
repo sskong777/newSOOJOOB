@@ -38,4 +38,8 @@ public class Plogging {
     @JoinColumn(name = "user_id")
     private User ploggingUser;
 
+    public void addRecord(User user){
+//        user.getUserRecord().getTotalDistance() + this.distance
+    }
+
 }

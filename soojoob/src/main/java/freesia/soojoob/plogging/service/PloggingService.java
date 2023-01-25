@@ -38,6 +38,7 @@ public class PloggingService {
         PloggingResDto data = new PloggingResDto(plogging);
 
         // 기록 처리
+        user.getUserRecord();
 
 
         return data;
