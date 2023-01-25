@@ -1,5 +1,6 @@
 package freesia.soojoob.record.entity;
 
+import freesia.soojoob.plogging.entity.Plogging;
 import freesia.soojoob.user.entity.User;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -44,5 +45,11 @@ public class Record {
         this.badgeCount = 0;
         this.totalTimeRecord = 0;
         this.exp = 36.5;
+    }
+
+    public void updateRecord(Plogging plogging){
+        this.totalDistance += plogging.getDistance();
+        this.totalTimeRecord += plogging.getTimeRecord();
+        this.totalTrashCount += plogging.getTrashCount();
     }
 }

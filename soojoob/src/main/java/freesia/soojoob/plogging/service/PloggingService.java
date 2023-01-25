@@ -5,6 +5,8 @@ import freesia.soojoob.plogging.dto.PloggingResDto;
 import freesia.soojoob.plogging.entity.Plogging;
 import freesia.soojoob.plogging.exception.NoExistPloggingException;
 import freesia.soojoob.plogging.repository.PloggingRepository;
+import freesia.soojoob.record.entity.Record;
+import freesia.soojoob.record.repository.RecordRepository;
 import freesia.soojoob.user.entity.User;
 import freesia.soojoob.user.exception.NoExistUserException;
 import freesia.soojoob.user.repository.UserRepository;
@@ -23,6 +25,8 @@ public class PloggingService {
     private final PloggingRepository ploggingRepository;
     private final UserRepository userRepository;
 
+    private final RecordRepository recordRepository;
+
 
     public PloggingResDto createPlogging(PloggingReqDto ploggingReqDto){
         // 임시 유저
@@ -38,7 +42,10 @@ public class PloggingService {
         PloggingResDto data = new PloggingResDto(plogging);
 
         // 기록 처리
-        user.getUserRecord();
+        Record userRecord =  user.getUserRecord();
+        userRecord.updateRecord(plogging);
+        recordRepository.save(userRecord);
+
 
 
         return data;
