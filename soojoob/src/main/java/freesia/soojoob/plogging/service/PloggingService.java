@@ -26,11 +26,10 @@ public class PloggingService {
 
     public PloggingResDto createPlogging(PloggingReqDto ploggingReqDto){
         // 임시 유저
-        User user = userRepository.findById(1L).orElseThrow( ()-> {
+        User user = userRepository.findById(3L).orElseThrow( ()-> {
                     throw new NoExistUserException();
                 }
         );
-
         // entitiy to dto
         Plogging plogging = ploggingReqDto.toEntity(user);
         // DB 저장
@@ -60,7 +59,7 @@ public class PloggingService {
 
 
     public List<PloggingResDto> getUserPlogging(int user_id) {
-        User user = userRepository.findById(1L).orElseThrow( ()-> {
+        User user = userRepository.findById(3L).orElseThrow( ()-> {
                     throw new NoExistUserException();
                 }
         );
@@ -78,11 +77,15 @@ public class PloggingService {
     }
 
     public List<PloggingResDto> getCurrentUserPlogging() {
-        User user = userRepository.findById(1L).orElseThrow( ()-> {
+        User user = userRepository.findById(3L).orElseThrow( ()-> {
                     throw new NoExistUserException();
                 }
         );
         List<PloggingResDto> data = user.getPloggingList().stream().map(PloggingResDto::new).collect(Collectors.toList());
         return data;
+    }
+
+    public void addPlogging(User user, Plogging plogging){
+//        user.getUserRecord()
     }
 }

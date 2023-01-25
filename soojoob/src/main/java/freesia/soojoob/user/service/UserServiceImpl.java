@@ -1,5 +1,7 @@
 package freesia.soojoob.user.service;
 
+import freesia.soojoob.record.entity.Record;
+import freesia.soojoob.record.repository.RecordRepository;
 import freesia.soojoob.user.dto.SignUpDto;
 import freesia.soojoob.user.dto.UpdateUser;
 import freesia.soojoob.user.dto.UserInfo;
@@ -18,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final RecordRepository recordRepository;
 
     @Override
     @Transactional
@@ -26,6 +29,9 @@ public class UserServiceImpl implements UserService {
         checkDuplicateUsername(signUpDto.getUsername());
         User user = signUpDto.toEntity();
         userRepository.save(user);
+
+        Record userRecord = new Record(user);
+        recordRepository.save(userRecord);
     }
 
     private void checkDuplicateEmail(String email) {
