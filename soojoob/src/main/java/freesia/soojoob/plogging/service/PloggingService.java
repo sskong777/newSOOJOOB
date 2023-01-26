@@ -5,6 +5,8 @@ import freesia.soojoob.plogging.dto.PloggingResDto;
 import freesia.soojoob.plogging.entity.Plogging;
 import freesia.soojoob.plogging.exception.NoExistPloggingException;
 import freesia.soojoob.plogging.repository.PloggingRepository;
+import freesia.soojoob.record.entity.Record;
+import freesia.soojoob.record.repository.RecordRepository;
 import freesia.soojoob.user.entity.User;
 import freesia.soojoob.user.exception.NoExistUserException;
 import freesia.soojoob.user.repository.UserRepository;
@@ -23,17 +25,29 @@ public class PloggingService {
     private final PloggingRepository ploggingRepository;
     private final UserRepository userRepository;
 
+    private final RecordRepository recordRepository;
+
 
     public PloggingResDto createPlogging(PloggingReqDto ploggingReqDto){
-
+        // 임시 유저
+        User user = userRepository.findById(3L).orElseThrow( ()-> {
+                    throw new NoExistUserException();
+                }
+        );
         // entitiy to dto
-        Plogging plogging = ploggingReqDto.toEntity();
+        Plogging plogging = ploggingReqDto.toEntity(user);
         // DB 저장
         ploggingRepository.save(plogging);
         // entity to dto
         PloggingResDto data = new PloggingResDto(plogging);
 
         // 기록 처리
+        Record userRecord =  user.getUserRecord();
+        userRecord.updateRecord(plogging);
+        recordRepository.save(userRecord);
+
+        // 뱃지
+
 
 
         return data;
@@ -55,7 +69,7 @@ public class PloggingService {
 
 
     public List<PloggingResDto> getUserPlogging(int user_id) {
-        User user = userRepository.findById(1L).orElseThrow( ()-> {
+        User user = userRepository.findById(3L).orElseThrow( ()-> {
                     throw new NoExistUserException();
                 }
         );
@@ -73,11 +87,15 @@ public class PloggingService {
     }
 
     public List<PloggingResDto> getCurrentUserPlogging() {
-        User user = userRepository.findById(1L).orElseThrow( ()-> {
+        User user = userRepository.findById(3L).orElseThrow( ()-> {
                     throw new NoExistUserException();
                 }
         );
         List<PloggingResDto> data = user.getPloggingList().stream().map(PloggingResDto::new).collect(Collectors.toList());
         return data;
+    }
+
+    public void addPlogging(User user, Plogging plogging){
+//        user.getUserRecord()
     }
 }
