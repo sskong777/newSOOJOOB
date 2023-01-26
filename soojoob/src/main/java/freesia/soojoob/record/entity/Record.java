@@ -51,5 +51,10 @@ public class Record {
         this.totalDistance += plogging.getDistance();
         this.totalTimeRecord += plogging.getTimeRecord();
         this.totalTrashCount += plogging.getTrashCount();
+        this.exp += 0.1;
+
+        if (this.exp > 99.9){
+            this.exp = 99.9;
+        }
     }
 }

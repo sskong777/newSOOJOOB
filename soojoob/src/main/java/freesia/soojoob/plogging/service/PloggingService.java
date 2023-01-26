@@ -46,6 +46,8 @@ public class PloggingService {
         userRecord.updateRecord(plogging);
         recordRepository.save(userRecord);
 
+        // 뱃지
+
 
 
         return data;
