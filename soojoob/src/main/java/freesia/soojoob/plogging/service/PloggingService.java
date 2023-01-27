@@ -54,7 +54,6 @@ public class PloggingService {
     }
 
     public List<PloggingResDto> getAllPlogging() {
-//        List<Plogging> ploggingList = ploggingRepository.findAll();
         List<PloggingResDto> data = ploggingRepository.findAll().stream().map(PloggingResDto::new).collect(Collectors.toList());
         return data;
     }
@@ -95,7 +94,4 @@ public class PloggingService {
         return data;
     }
 
-    public void addPlogging(User user, Plogging plogging){
-//        user.getUserRecord()
-    }
 }
