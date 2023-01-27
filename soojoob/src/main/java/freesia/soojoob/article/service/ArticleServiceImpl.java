@@ -1,7 +1,7 @@
 package freesia.soojoob.article.service;
 
-import freesia.soojoob.article.dto.request.ArticlePatchReq;
 import freesia.soojoob.article.dto.request.ArticlePostReq;
+import freesia.soojoob.article.dto.request.ArticleUpdateReq;
 import freesia.soojoob.article.entity.Article;
 import freesia.soojoob.article.entity.ArticleOne;
 import freesia.soojoob.article.repository.ArticleRepository;
@@ -65,13 +65,13 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public void patchArticle(ArticlePatchReq articlePatchReq, Long articleId) {
+    public void updateArticle(ArticleUpdateReq articleUpdateReq, Long articleId) {
         Article article = articleRepository.findById(articleId).get();
 
-        Article patchArticle = ArticlePatchReq.ofPatch(article, articlePatchReq.getArticleTitle(),
-                articlePatchReq.getArticleContent(), articlePatchReq.getArticleImage());
+        Article updateArticle = ArticleUpdateReq.ofUpdate(article, articleUpdateReq.getArticleTitle(),
+                articleUpdateReq.getArticleContent(), articleUpdateReq.getArticleImage());
 
-        articleRepository.save(patchArticle);
+        articleRepository.save(updateArticle);
     }
 
     private Long getTimestamp(LocalDateTime today) {

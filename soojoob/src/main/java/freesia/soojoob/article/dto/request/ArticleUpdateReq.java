@@ -7,7 +7,7 @@ import org.springframework.lang.Nullable;
 
 @Getter
 @Setter
-public class ArticlePatchReq {
+public class ArticleUpdateReq {
 
     private String articleTitle;
 
@@ -16,7 +16,7 @@ public class ArticlePatchReq {
     @Nullable
     private String articleImage;
 
-    public static Article ofPatch(Article article, String articleTitle, String articleContent, String articleImage) {
+    public static Article ofUpdate(Article article, String articleTitle, String articleContent, String articleImage) {
         return Article.builder()
                 .articleId(article.getArticleId())
                 .user(article.getUser())

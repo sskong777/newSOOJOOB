@@ -1,7 +1,7 @@
 package freesia.soojoob.article.service;
 
-import freesia.soojoob.article.dto.request.ArticlePatchReq;
 import freesia.soojoob.article.dto.request.ArticlePostReq;
+import freesia.soojoob.article.dto.request.ArticleUpdateReq;
 import freesia.soojoob.article.entity.Article;
 import freesia.soojoob.article.entity.ArticleOne;
 
@@ -17,6 +17,5 @@ public interface ArticleService {
 
     void deleteArticle(Long articleId);
 
-    void patchArticle(ArticlePatchReq articlePatchReq, Long articleId);
-
+    void updateArticle(ArticleUpdateReq articleUpdateReq, Long articleId);
 }

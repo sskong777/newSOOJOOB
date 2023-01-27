@@ -23,8 +23,8 @@ public class BaseResponseBody {
 
     public static BaseResponseBody of(Integer statusCode, String message) {
         BaseResponseBody body = new BaseResponseBody();
-        body.message = message;
         body.statusCode = statusCode;
+        body.message = message;
         return body;
     }
 }
