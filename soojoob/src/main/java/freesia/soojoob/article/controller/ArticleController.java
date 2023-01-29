@@ -8,6 +8,8 @@ import freesia.soojoob.article.dto.response.BaseResponseBody;
 import freesia.soojoob.article.entity.Article;
 import freesia.soojoob.article.entity.ArticleOne;
 import freesia.soojoob.article.service.ArticleService;
+import freesia.soojoob.comment.dto.request.CommentPostReq;
+import freesia.soojoob.comment.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -25,6 +27,13 @@ public class ArticleController {
 
     @Autowired
     ArticleService articleService;
+
+    @Autowired
+    CommentService commentService;
+
+    private Long getUserId(Authentication authentication) {
+        return Long.parseLong((String) authentication.getPrincipal());
+    }
 
     // 1. 게시글 전체 조회 GET
     @GetMapping
@@ -52,7 +61,7 @@ public class ArticleController {
         return ResponseEntity.ok(BaseResponseBody.of(200,"success"));
     }
 
-    // 4. 게시글 수정 PATCH
+    // 4. 게시글 수정 PUT
     @PutMapping("/{articleId}")
     public ResponseEntity<BaseResponseBody> updateArticle(@RequestBody ArticleUpdateReq articleUpdateReq, @PathVariable(name = "articleId") Long articleId) {
         articleService.updateArticle(articleUpdateReq, articleId);
@@ -60,11 +69,22 @@ public class ArticleController {
         return ResponseEntity.ok(BaseResponseBody.of( 200,"success"));
     }
 
-    // 5. 이벤트 삭제 DELETE
+    // 5. 게시글 삭제 DELETE
     @DeleteMapping("/{articleId}")
     public ResponseEntity<BaseResponseBody> deleteArticle(@PathVariable(name = "articleId") Long articleId) {
         articleService.deleteArticle(articleId);
 
         return ResponseEntity.ok(BaseResponseBody.of( 200,"success"));
+    }
+
+
+    // 6. 댓글 생성 POST
+    @PostMapping("/{feedId}/comment")
+    public ResponseEntity<? extends BaseResponseBody> createComment(@PathVariable(name = "articleId") Long articleId, @RequestBody CommentPostReq commentPostReq, Authentication authentication) {
+        Long userId = getUserId(authentication);
+        if (!articleService.existsByArticleId(articleId))
+            return ResponseEntity.ok(BaseResponseBody.of(405, "게시글이 존재하지 않습니다."));
+        commentService.createComment(articleId, userId, commentPostReq.getCommentContent());
+        return ResponseEntity.ok(BaseResponseBody.of(200, "댓글 생성에 성공했습니다."));
     }
 }

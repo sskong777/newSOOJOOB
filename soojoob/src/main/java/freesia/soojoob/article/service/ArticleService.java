@@ -15,7 +15,9 @@ public interface ArticleService {
 
     ArticleOne getArticle(Long articleId);
 
+    void updateArticle(ArticleUpdateReq articleUpdateReq, Long articleId);
+
     void deleteArticle(Long articleId);
 
-    void updateArticle(ArticleUpdateReq articleUpdateReq, Long articleId);
+    boolean existsByArticleId(Long articleId);
 }

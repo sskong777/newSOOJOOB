@@ -27,6 +27,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public List getArticles() {
+
         return articleRepository.findAll();
     }
 
@@ -75,6 +76,12 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     private Long getTimestamp(LocalDateTime today) {
+
         return Timestamp.valueOf(today).getTime() / 1000;
+    }
+
+    @Override
+    public boolean existsByArticleId(Long articleId) {
+        return articleRepository.existsById(articleId);
     }
 }
