@@ -33,9 +33,9 @@ public class PloggingService {
     private final UserBadgeRepository userBadgeRepository;
 
 
-    public PloggingResDto createPlogging(PloggingReqDto ploggingReqDto){
+    public PloggingResDto createPlogging(PloggingReqDto ploggingReqDto) {
         // 임시 유저
-        User user = userRepository.findById(3L).orElseThrow( ()-> {
+        User user = userRepository.findById(3L).orElseThrow(() -> {
                     throw new NoExistUserException();
                 }
         );
@@ -47,12 +47,11 @@ public class PloggingService {
         PloggingResDto data = new PloggingResDto(plogging);
 
         // 기록 처리
-        Record userRecord =  user.getUserRecord();
+        Record userRecord = user.getUserRecord();
         userRecord.updateRecord(plogging);
         recordRepository.save(userRecord);
 
         // 뱃지
-
 
 
         return data;
@@ -65,7 +64,7 @@ public class PloggingService {
 
     public PloggingResDto detailPlogging(int plogging_id) {
         Plogging plogging = ploggingRepository.findPloggingById(plogging_id).orElseThrow(
-                ()->new NoExistPloggingException()
+                () -> new NoExistPloggingException()
         );
         PloggingResDto data = new PloggingResDto(plogging);
         return data;
@@ -73,7 +72,7 @@ public class PloggingService {
 
 
     public List<PloggingResDto> getUserPlogging(int user_id) {
-        User user = userRepository.findById(3L).orElseThrow( ()-> {
+        User user = userRepository.findById(3L).orElseThrow(() -> {
                     throw new NoExistUserException();
                 }
         );
@@ -85,13 +84,13 @@ public class PloggingService {
 
     public void deletePlogging(int plogging_id) {
         Plogging plogging = ploggingRepository.findPloggingById(plogging_id).orElseThrow(
-                ()->new NoExistPloggingException()
+                () -> new NoExistPloggingException()
         );
         ploggingRepository.delete(plogging);
     }
 
     public List<PloggingResDto> getCurrentUserPlogging() {
-        User user = userRepository.findById(3L).orElseThrow( ()-> {
+        User user = userRepository.findById(3L).orElseThrow(() -> {
                     throw new NoExistUserException();
                 }
         );
@@ -100,13 +99,16 @@ public class PloggingService {
     }
 
 
-    public void checkBadge(Record userRecord, User user, Plogging plogging){
-        if (userRecord.getTotalTrashCount() >= 100){
+    public void checkBadge(Record userRecord, User user, Plogging plogging) {
+        if (userRecord.getTotalTrashCount() >= 100) {
             Badge badge = new Badge(1);
-            UserBadge userBadge = new UserBadge(user,badge);
+            UserBadge userBadge = new UserBadge(user, badge);
             userBadgeRepository.save(userBadge);
         }
-        if (plogging.getTrashCount() >= 10){
-
+        if (plogging.getTrashCount() >= 10) {
+            Badge badge = new Badge(2);
+            UserBadge userBadge = new UserBadge(user, badge);
+            userBadgeRepository.save(userBadge);
+        }
     }
 }
