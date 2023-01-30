@@ -48,15 +48,16 @@ public class User {
     @OneToMany(mappedBy = "ploggingUser", orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Plogging> ploggingList = new ArrayList<>();
 
+
     @Builder
     public User (String email, String username, String password) {
         this.email = email;
         this.username = username;
-        this.password = encodingPassword(password);
+        this.password = password;
     }
 
-    private String encodingPassword(String password) {
-        return password;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public void update(UpdateUser info) {

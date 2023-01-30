@@ -9,6 +9,7 @@ import freesia.soojoob.user.exception.AlreadyExistUsernameException;
 import freesia.soojoob.user.exception.NoExistUserException;
 import freesia.soojoob.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     @Transactional
@@ -25,8 +27,14 @@ public class UserServiceImpl implements UserService {
         checkDuplicateEmail(signUpDto.getEmail());
         checkDuplicateUsername(signUpDto.getUsername());
         User user = signUpDto.toEntity();
+        user.setPassword(passwordEncoding(user.getPassword()));
         userRepository.save(user);
     }
+
+    private String passwordEncoding(String password) {
+        return passwordEncoder.encode(password);
+    }
+
 
     private void checkDuplicateEmail(String email) {
         if (userRepository.existsByEmail(email)) {
