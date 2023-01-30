@@ -1,5 +1,8 @@
 package freesia.soojoob.plogging.service;
 
+import freesia.soojoob.badge.entitiy.Badge;
+import freesia.soojoob.badge.entitiy.UserBadge;
+import freesia.soojoob.badge.repository.UserBadgeRepository;
 import freesia.soojoob.plogging.dto.PloggingReqDto;
 import freesia.soojoob.plogging.dto.PloggingResDto;
 import freesia.soojoob.plogging.entity.Plogging;
@@ -27,6 +30,7 @@ public class PloggingService {
     private final UserRepository userRepository;
 
     private final RecordRepository recordRepository;
+    private final UserBadgeRepository userBadgeRepository;
 
 
     public PloggingResDto createPlogging(PloggingReqDto ploggingReqDto){
@@ -96,9 +100,13 @@ public class PloggingService {
     }
 
 
-    public void checkBadge(Record userRecord, User user){
+    public void checkBadge(Record userRecord, User user, Plogging plogging){
         if (userRecord.getTotalTrashCount() >= 100){
-
+            Badge badge = new Badge(1);
+            UserBadge userBadge = new UserBadge(user,badge);
+            userBadgeRepository.save(userBadge);
         }
+        if (plogging.getTrashCount() >= 10){
+
     }
 }
