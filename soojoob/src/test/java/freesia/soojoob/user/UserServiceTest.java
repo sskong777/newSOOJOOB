@@ -1,5 +1,6 @@
 package freesia.soojoob.user;
 
+import freesia.soojoob.global.login.UserDetailsImpl;
 import freesia.soojoob.user.dto.SignUpDto;
 import freesia.soojoob.user.dto.UpdateUser;
 import freesia.soojoob.user.entity.User;
@@ -13,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -27,9 +29,11 @@ public class UserServiceTest {
     @MockBean
     UserRepository userRepository;
 
+    PasswordEncoder passwordEncoder;
+
     @BeforeEach
     void setUp() {
-        userService = new UserServiceImpl(userRepository);
+        userService = new UserServiceImpl(userRepository, passwordEncoder);
     }
 
     @Test
@@ -55,10 +59,10 @@ public class UserServiceTest {
         UpdateUser info = UpdateUser.builder()
                 .username("유저네임2")
                 .build();
-
+        UserDetailsImpl userDetails = new UserDetailsImpl(user);
         Mockito.when(userRepository.findById(1L)).thenReturn(Optional.of(user));
 
-        Assertions.assertThat(userService.editUser(info).getUsername())
+        Assertions.assertThat(userService.editUser(info, userDetails).getUsername())
                 .isEqualTo(info.getUsername());
     }
 

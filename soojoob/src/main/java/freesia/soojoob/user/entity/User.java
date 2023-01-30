@@ -5,6 +5,7 @@ import freesia.soojoob.plogging.entity.Plogging;
 import freesia.soojoob.badge.entitiy.UserBadge;
 import freesia.soojoob.record.entity.Record;
 import freesia.soojoob.user.dto.UpdateUser;
+import freesia.soojoob.user.dto.UserDetailInfo;
 import freesia.soojoob.user.dto.UserInfo;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -57,11 +58,11 @@ public class User {
     public User (String email, String username, String password) {
         this.email = email;
         this.username = username;
-        this.password = encodingPassword(password);
+        this.password = password;
     }
 
-    private String encodingPassword(String password) {
-        return password;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public void update(UpdateUser info) {
@@ -93,4 +94,5 @@ public class User {
                 .username(this.username)
                 .build();
     }
+
 }
