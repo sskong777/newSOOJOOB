@@ -7,6 +7,7 @@ import freesia.soojoob.plogging.exception.NoExistPloggingException;
 import freesia.soojoob.plogging.repository.PloggingRepository;
 import freesia.soojoob.record.entity.Record;
 import freesia.soojoob.record.repository.RecordRepository;
+import freesia.soojoob.record.service.RecordService;
 import freesia.soojoob.user.entity.User;
 import freesia.soojoob.user.exception.NoExistUserException;
 import freesia.soojoob.user.repository.UserRepository;
@@ -94,4 +95,10 @@ public class PloggingService {
         return data;
     }
 
+
+    public void checkBadge(Record userRecord, User user){
+        if (userRecord.getTotalTrashCount() >= 100){
+
+        }
+    }
 }
