@@ -1,5 +1,6 @@
 package freesia.soojoob.user;
 
+import freesia.soojoob.global.login.UserDetailsImpl;
 import freesia.soojoob.user.dto.SignUpDto;
 import freesia.soojoob.user.dto.UpdateUser;
 import freesia.soojoob.user.entity.User;
@@ -58,10 +59,10 @@ public class UserServiceTest {
         UpdateUser info = UpdateUser.builder()
                 .username("유저네임2")
                 .build();
-
+        UserDetailsImpl userDetails = new UserDetailsImpl(user);
         Mockito.when(userRepository.findById(1L)).thenReturn(Optional.of(user));
 
-        Assertions.assertThat(userService.editUser(info).getUsername())
+        Assertions.assertThat(userService.editUser(info, userDetails).getUsername())
                 .isEqualTo(info.getUsername());
     }
 

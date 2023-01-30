@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import freesia.soojoob.Plogging.entity.Plogging;
 import freesia.soojoob.badge.entitiy.UserBadge;
 import freesia.soojoob.user.dto.UpdateUser;
+import freesia.soojoob.user.dto.UserDetailInfo;
 import freesia.soojoob.user.dto.UserInfo;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -89,4 +90,5 @@ public class User {
                 .username(this.username)
                 .build();
     }
+
 }

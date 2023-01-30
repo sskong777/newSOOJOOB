@@ -1,7 +1,9 @@
 package freesia.soojoob.user.service;
 
+import freesia.soojoob.global.login.UserDetailsImpl;
 import freesia.soojoob.user.dto.SignUpDto;
 import freesia.soojoob.user.dto.UpdateUser;
+import freesia.soojoob.user.dto.UserDetailInfo;
 import freesia.soojoob.user.dto.UserInfo;
 import freesia.soojoob.user.entity.User;
 import freesia.soojoob.user.exception.AlreadyExistEmailException;
@@ -50,13 +52,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public UpdateUser editUser(UpdateUser info) {
-        // 임시 유저
-        User user = userRepository.findById(1L).orElseThrow( ()-> {
+    public UpdateUser editUser(UpdateUser info, UserDetailsImpl userDetails) {
+        User user = userRepository.findById(userDetails.getUser().getId()).orElseThrow(() -> {
             throw new NoExistUserException();
-                }
-        );
-        //
+        });
         user.update(info);
         userRepository.save(user);
         return user.toUpdateDto();
@@ -73,5 +72,13 @@ public class UserServiceImpl implements UserService {
             throw new NoExistUserException();
         });
         return user.toInfoDto();
+    }
+
+    @Override
+    public UserDetailInfo findUserDetail(UserDetailsImpl userDetails) {
+        User user = userRepository.findById(userDetails.getUser().getId()).orElseThrow( ()-> {
+            throw new NoExistUserException();
+        });
+        return new UserDetailInfo.createUserDetailInfo(user);
     }
 }
