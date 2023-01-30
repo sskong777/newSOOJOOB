@@ -2,7 +2,9 @@ package freesia.soojoob.user.dto;
 
 import freesia.soojoob.user.entity.GENDER;
 import freesia.soojoob.user.entity.User;
+import lombok.Getter;
 
+@Getter
 public class UserDetailInfo {
     private Long userid;
     private String username;
@@ -15,7 +17,7 @@ public class UserDetailInfo {
     private Integer height;
 
 
-    private UserDetailInfo UserDetailInfo(User user) {
+    private UserDetailInfo(User user) {
         this.userid = user.getId();
         this.username = user.getUsername();
         this.password = user.getPassword();
@@ -25,16 +27,10 @@ public class UserDetailInfo {
         this.region = user.getRegion();
         this.weight = user.getWeight();
         this.height = user.getHeight();
-        return this;
     }
     
-    public UserDetailInfo createUserDetailInfo(User user) {
-        return UserDetailInfo(user);
+    public static UserDetailInfo createUserDetailInfo(User user) {
+        return new UserDetailInfo(user);
     }
 
-    public static class createUserDetailInfo extends UserDetailInfo {
-        public createUserDetailInfo(User user) {
-            super();
-        }
-    }
 }
