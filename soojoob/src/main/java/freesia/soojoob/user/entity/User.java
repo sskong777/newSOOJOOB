@@ -1,8 +1,9 @@
 package freesia.soojoob.user.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import freesia.soojoob.Plogging.entity.Plogging;
+import freesia.soojoob.plogging.entity.Plogging;
 import freesia.soojoob.badge.entitiy.UserBadge;
+import freesia.soojoob.record.entity.Record;
 import freesia.soojoob.user.dto.UpdateUser;
 import freesia.soojoob.user.dto.UserDetailInfo;
 import freesia.soojoob.user.dto.UserInfo;
@@ -49,6 +50,9 @@ public class User {
     @OneToMany(mappedBy = "ploggingUser", orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Plogging> ploggingList = new ArrayList<>();
 
+    @OneToOne(mappedBy = "user", cascade = ALL, orphanRemoval = true)
+    @JsonIgnore
+    private Record userRecord;
 
     @Builder
     public User (String email, String username, String password) {

@@ -1,8 +1,8 @@
-package freesia.soojoob.Plogging.controller;
+package freesia.soojoob.plogging.controller;
 
-import freesia.soojoob.Plogging.dto.PloggingReqDto;
-import freesia.soojoob.Plogging.dto.PloggingResDto;
-import freesia.soojoob.Plogging.service.PloggingService;
+import freesia.soojoob.plogging.dto.PloggingReqDto;
+import freesia.soojoob.plogging.dto.PloggingResDto;
+import freesia.soojoob.plogging.service.PloggingService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -36,6 +36,13 @@ public class PloggingController {
         return new ResponseEntity<>(data,HttpStatus.OK);
     }
 
+    // 현재 유저의 플로깅 조회
+    @GetMapping("")
+    public ResponseEntity<List<PloggingResDto>> getCurrentUserPlogging(){
+        List<PloggingResDto> data = ploggingService.getCurrentUserPlogging();
+        return new ResponseEntity<>(data,HttpStatus.OK);
+    }
+
     // 플로깅 상세 조회
     @GetMapping("/{ploggingId}")
     public ResponseEntity<PloggingResDto> ploggingDetail(@PathVariable(name = "ploggingId") int plogging_id){
@@ -44,7 +51,7 @@ public class PloggingController {
     }
 
     // 유저별 플로깅 리스트
-    @GetMapping("/all/userId")
+    @GetMapping("/all/{userId}")
     public ResponseEntity<List<PloggingResDto>> getUserPlogging(@PathVariable(name = "userId") int user_id){
         List<PloggingResDto> data = ploggingService.getUserPlogging(user_id);
         return new ResponseEntity<>(data,HttpStatus.OK);

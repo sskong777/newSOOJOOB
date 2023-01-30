@@ -1,6 +1,8 @@
 package freesia.soojoob.user.service;
 
 import freesia.soojoob.global.login.UserDetailsImpl;
+import freesia.soojoob.record.entity.Record;
+import freesia.soojoob.record.repository.RecordRepository;
 import freesia.soojoob.user.dto.SignUpDto;
 import freesia.soojoob.user.dto.UpdateUser;
 import freesia.soojoob.user.dto.UserDetailInfo;
@@ -22,6 +24,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final RecordRepository recordRepository;
 
     @Override
     @Transactional
@@ -31,6 +34,9 @@ public class UserServiceImpl implements UserService {
         User user = signUpDto.toEntity();
         user.setPassword(passwordEncoding(user.getPassword()));
         userRepository.save(user);
+
+        Record userRecord = new Record(user);
+        recordRepository.save(userRecord);
     }
 
     private String passwordEncoding(String password) {

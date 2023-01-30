@@ -2,6 +2,7 @@ package freesia.soojoob.badge.dto;
 
 import freesia.soojoob.badge.entitiy.Badge;
 import freesia.soojoob.badge.entitiy.UserBadge;
+import freesia.soojoob.user.entity.User;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
@@ -24,4 +25,13 @@ public class BadgeResDto {
         this.detail = userBadge.getBadge().getDetail();
         this.imgUrl = userBadge.getBadge().getImgUrl();
     }
+
+    public BadgeResDto(Badge badge){
+        this.id = badge.getId();
+        this.name = badge.getName();
+        this.detail = badge.getDetail();
+        this.imgUrl = badge.getImgUrl();
+    }
+
+
 }
