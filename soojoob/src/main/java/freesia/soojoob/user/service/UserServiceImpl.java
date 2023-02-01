@@ -59,9 +59,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public UpdateUser editUser(UpdateUser info, UserDetailsImpl userDetails) {
-        User user = userRepository.findById(userDetails.getUser().getId()).orElseThrow(() -> {
-            throw new NoExistUserException();
-        });
+        User user = userDetails.getUser();
         user.update(info);
         userRepository.save(user);
         return user.toUpdateDto();
@@ -82,9 +80,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDetailInfo findUserDetail(UserDetailsImpl userDetails) {
-        User user = userRepository.findById(userDetails.getUser().getId()).orElseThrow( ()-> {
-            throw new NoExistUserException();
-        });
+        User user = userDetails.getUser();
         return UserDetailInfo.createUserDetailInfo(user);
     }
 }
