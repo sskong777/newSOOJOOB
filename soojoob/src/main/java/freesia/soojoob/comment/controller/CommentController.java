@@ -11,6 +11,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
+/**
+ * 댓글에 대한 명령 컨트롤러
+ * */
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/comment")
@@ -32,7 +36,7 @@ public class CommentController {
         Comment comment = commentOptional.get();
         if(!userId.equals(comment.getUser().getId()))
             return ResponseEntity.ok(BaseResponseBody.of(406, "작성자 본인만 수정할 수 있습니다."));
-        commentService.updateComment(comment, commentUpdateReq.getCommentContent());
+        commentService.updateComment(commentUpdateReq, commentId);
         return ResponseEntity.ok(BaseResponseBody.of(200, "댓글이 수정되었습니다."));
     }
 

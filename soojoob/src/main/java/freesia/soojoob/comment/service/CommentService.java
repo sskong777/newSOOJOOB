@@ -1,5 +1,6 @@
 package freesia.soojoob.comment.service;
 
+import freesia.soojoob.comment.dto.request.CommentUpdateReq;
 import freesia.soojoob.comment.entity.Comment;
 
 import java.util.List;
@@ -9,11 +10,11 @@ public interface CommentService {
 
     List<Comment> getCommentList(Long articleId);
 
-    void createComment(Long articleId, Long userId, String commentContent);
+    Comment createComment(Long articleId, Long userId, String commentContent);
 
     Optional<Comment> getComment(Long commentId);
 
-    void updateComment(Comment comment, String commentContent);
+    void updateComment(CommentUpdateReq commentUpdateReq, Long commentId);
 
     void deleteComment(Comment comment);
 }

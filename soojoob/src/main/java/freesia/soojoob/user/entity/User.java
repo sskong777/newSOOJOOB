@@ -36,8 +36,7 @@ public class User {
     private Integer height;
 
     @Builder
-    public User (Long id, String email, String username, String password) {
-        this.id = id;
+    public User (String email, String username, String password) {
         this.email = email;
         this.username = username;
         this.password = encodingPassword(password);

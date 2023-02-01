@@ -9,7 +9,7 @@ import java.util.List;
 @Getter
 public class ArticlesGetRes extends BaseResponseBody {
 
-    List<Article> data;
+    List<Article> article;
 
     public static ArticlesGetRes of(List<Article> article, Integer statusCode, String message) {
         return ArticlesGetRes.builder()
@@ -22,6 +22,6 @@ public class ArticlesGetRes extends BaseResponseBody {
     @Builder
     public ArticlesGetRes(Integer statusCode, String message, List<Article> article) {
         super(statusCode, message);
-        this.data = article;
+        this.article = article;
     }
 }

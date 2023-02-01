@@ -79,7 +79,7 @@ public class ArticleController {
 
 
     // 6. 댓글 생성 POST
-    @PostMapping("/{feedId}/comment")
+    @PostMapping("/{articleId}/comment")
     public ResponseEntity<? extends BaseResponseBody> createComment(@PathVariable(name = "articleId") Long articleId, @RequestBody CommentPostReq commentPostReq, Authentication authentication) {
         Long userId = getUserId(authentication);
         if (!articleService.existsByArticleId(articleId))

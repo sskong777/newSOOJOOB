@@ -8,10 +8,7 @@ import javax.persistence.*;
 
 @Entity
 @Getter
-@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
-@Builder
 @Table(name = "comment")
 public class Comment {
     @Id
@@ -29,4 +26,13 @@ public class Comment {
     private String commentContent;
 
     private Long commentDate;
+
+    @Builder
+    public Comment(Long commentId, User user, Article article, String commentContent, Long commentDate) {
+        this.commentId = commentId;
+        this.user = user;
+        this.article = article;
+        this.commentContent = commentContent;
+        this.commentDate = commentDate;
+    }
 }
