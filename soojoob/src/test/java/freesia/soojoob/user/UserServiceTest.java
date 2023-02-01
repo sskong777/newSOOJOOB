@@ -1,8 +1,10 @@
 package freesia.soojoob.user;
 
 import freesia.soojoob.global.login.UserDetailsImpl;
+import freesia.soojoob.record.repository.RecordRepository;
 import freesia.soojoob.user.dto.SignUpDto;
 import freesia.soojoob.user.dto.UpdateUser;
+import freesia.soojoob.user.dto.UserDetailInfo;
 import freesia.soojoob.user.entity.User;
 import freesia.soojoob.user.repository.UserRepository;
 import freesia.soojoob.user.service.UserService;
@@ -20,20 +22,28 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Optional;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+
 @DisplayName("유저 서비스")
 @ExtendWith(SpringExtension.class)
 public class UserServiceTest {
 
     UserService userService;
-
     @MockBean
     UserRepository userRepository;
+    @MockBean
+    RecordRepository recordRepository;
+    @MockBean
+    UserDetailsImpl userDetails;
 
+    @MockBean
     PasswordEncoder passwordEncoder;
 
     @BeforeEach
     void setUp() {
-        userService = new UserServiceImpl(userRepository, passwordEncoder);
+        userService = new UserServiceImpl(userRepository, passwordEncoder, recordRepository);
     }
 
     @Test
@@ -42,10 +52,10 @@ public class UserServiceTest {
         SignUpDto signUpDto = new SignUpDto("aaa@aa.aa", "유저네임", "password");
         User user = signUpDto.toEntity();
 
-        Mockito.when(userRepository.save(user)).thenReturn(user);
+        Mockito.when(passwordEncoder.encode(user.getPassword())).thenReturn("encodingPassword");
         userService.addUser(signUpDto);
 
-        Assertions.assertThat(userRepository.save(user)).isEqualTo(user);
+        verify(userRepository, times(1)).save(any(User.class));
     }
 
     @Test
@@ -59,8 +69,8 @@ public class UserServiceTest {
         UpdateUser info = UpdateUser.builder()
                 .username("유저네임2")
                 .build();
-        UserDetailsImpl userDetails = new UserDetailsImpl(user);
-        Mockito.when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+        Mockito.when(userDetails.getUser()).thenReturn(user);
+
 
         Assertions.assertThat(userService.editUser(info, userDetails).getUsername())
                 .isEqualTo(info.getUsername());
@@ -80,17 +90,29 @@ public class UserServiceTest {
         Assertions.assertThat(userService.findUser(1L).getUsername()).isEqualTo("유저네임");
     }
 
-    @Test
-    @DisplayName("Security 로그인 성공")
-    @WithMockUser
-    void 로그인_성공() {
-
-    }
 
     @Test
     @DisplayName("현재 회원조회 성공")
     @WithMockUser
     void 현재_회원조회_성공() {
+        User user = User.builder()
+                .email("aaa@aa.aa")
+                .username("유저네임")
+                .password("password")
+                .build();
+        UserDetailInfo userDetailInfo = UserDetailInfo.createUserDetailInfo(user);
+
+        Mockito.when(userDetails.getUser()).thenReturn(user);
+
+        Assertions.assertThat(userService.findUserDetail(userDetails)).usingRecursiveComparison().isEqualTo(userDetailInfo);
+    }
+
+    @Test
+    @DisplayName("회원 탈퇴 성공")
+    void 회원_탈퇴_성공() {
+        userService.deleteUser(1L);
+        verify(userRepository, times(1)).deleteById(1L);
 
     }
+
 }
