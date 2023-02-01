@@ -24,6 +24,9 @@ public class Badge {
     @Column(name="badge_url")
     private String imgUrl;
 
+    public Badge(int id){
+        this.id = id;
+    }
 }
 
 // Entity 설계 원칙

@@ -1,10 +1,10 @@
-package freesia.soojoob.Plogging.entity;
+package freesia.soojoob.plogging.entity;
 
 
+import freesia.soojoob.user.entity.User;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -33,5 +33,9 @@ public class Plogging {
 
     @Column(name = "plogging_img")
     private String ploggingImg;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User ploggingUser;
 
 }

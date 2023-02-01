@@ -1,7 +1,11 @@
 package freesia.soojoob.user.service;
 
+import freesia.soojoob.global.login.UserDetailsImpl;
+import freesia.soojoob.record.entity.Record;
+import freesia.soojoob.record.repository.RecordRepository;
 import freesia.soojoob.user.dto.SignUpDto;
 import freesia.soojoob.user.dto.UpdateUser;
+import freesia.soojoob.user.dto.UserDetailInfo;
 import freesia.soojoob.user.dto.UserInfo;
 import freesia.soojoob.user.entity.User;
 import freesia.soojoob.user.exception.AlreadyExistEmailException;
@@ -9,6 +13,7 @@ import freesia.soojoob.user.exception.AlreadyExistUsernameException;
 import freesia.soojoob.user.exception.NoExistUserException;
 import freesia.soojoob.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +23,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final RecordRepository recordRepository;
 
     @Override
     @Transactional
@@ -25,8 +32,17 @@ public class UserServiceImpl implements UserService {
         checkDuplicateEmail(signUpDto.getEmail());
         checkDuplicateUsername(signUpDto.getUsername());
         User user = signUpDto.toEntity();
+        user.setPassword(passwordEncoding(user.getPassword()));
         userRepository.save(user);
+
+        Record userRecord = new Record(user);
+        recordRepository.save(userRecord);
     }
+
+    private String passwordEncoding(String password) {
+        return passwordEncoder.encode(password);
+    }
+
 
     private void checkDuplicateEmail(String email) {
         if (userRepository.existsByEmail(email)) {
@@ -42,13 +58,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public UpdateUser editUser(UpdateUser info) {
-        // 임시 유저
-        User user = userRepository.findById(1L).orElseThrow( ()-> {
-            throw new NoExistUserException();
-                }
-        );
-        //
+    public UpdateUser editUser(UpdateUser info, UserDetailsImpl userDetails) {
+        User user = userDetails.getUser();
         user.update(info);
         userRepository.save(user);
         return user.toUpdateDto();
@@ -64,8 +75,12 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(id).orElseThrow( ()-> {
             throw new NoExistUserException();
         });
-        System.out.println(user.getAge());
-        System.out.println(user.getEmail());
         return user.toInfoDto();
+    }
+
+    @Override
+    public UserDetailInfo findUserDetail(UserDetailsImpl userDetails) {
+        User user = userDetails.getUser();
+        return UserDetailInfo.createUserDetailInfo(user);
     }
 }
