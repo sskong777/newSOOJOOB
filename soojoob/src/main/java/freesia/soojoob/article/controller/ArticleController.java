@@ -10,7 +10,7 @@ import freesia.soojoob.article.entity.ArticleOne;
 import freesia.soojoob.article.service.ArticleService;
 import freesia.soojoob.comment.dto.request.CommentPostReq;
 import freesia.soojoob.comment.service.CommentService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -22,14 +22,13 @@ import java.util.List;
  * */
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/article")
 public class ArticleController {
 
-    @Autowired
-    ArticleService articleService;
+    private final ArticleService articleService;
 
-    @Autowired
-    CommentService commentService;
+    private final CommentService commentService;
 
     private Long getUserId(Authentication authentication) {
         return Long.parseLong((String) authentication.getPrincipal());
