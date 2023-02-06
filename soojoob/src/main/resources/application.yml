@@ -8,7 +8,7 @@ spring:
   jpa:
     defer-datasource-initialization: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
       naming:
         physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
       use-new-id-generator-mappings: false
@@ -28,3 +28,7 @@ logging:
   level:
     org.hibernate.sql: debug
     root: info
+
+jwt:
+  token:
+    key: skldjficmnwl123kclknmcnfklsdkskmxxfofohue

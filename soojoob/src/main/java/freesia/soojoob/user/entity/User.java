@@ -1,6 +1,11 @@
 package freesia.soojoob.user.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import freesia.soojoob.plogging.entity.Plogging;
+import freesia.soojoob.badge.entitiy.UserBadge;
+import freesia.soojoob.record.entity.Record;
 import freesia.soojoob.user.dto.UpdateUser;
+import freesia.soojoob.user.dto.UserDetailInfo;
 import freesia.soojoob.user.dto.UserInfo;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -8,6 +13,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import static javax.persistence.CascadeType.ALL;
 
 @Entity
 @Getter
@@ -35,15 +44,25 @@ public class User {
 
     private Integer height;
 
+    @OneToMany(mappedBy = "user", cascade = ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<UserBadge> userBadges = new ArrayList<>();
+
+    @OneToMany(mappedBy = "ploggingUser", orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Plogging> ploggingList = new ArrayList<>();
+
+    @OneToOne(mappedBy = "user", cascade = ALL, orphanRemoval = true)
+    @JsonIgnore
+    private Record userRecord;
+
     @Builder
     public User (String email, String username, String password) {
         this.email = email;
         this.username = username;
-        this.password = encodingPassword(password);
+        this.password = password;
     }
 
-    private String encodingPassword(String password) {
-        return password;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public void update(UpdateUser info) {
@@ -75,4 +94,5 @@ public class User {
                 .username(this.username)
                 .build();
     }
+
 }

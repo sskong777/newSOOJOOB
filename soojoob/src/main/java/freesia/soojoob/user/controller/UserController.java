@@ -1,14 +1,17 @@
 package freesia.soojoob.user.controller;
 
 import freesia.soojoob.global.CommonResponse;
+import freesia.soojoob.global.login.UserDetailsImpl;
 import freesia.soojoob.user.dto.SelectUser;
 import freesia.soojoob.user.dto.SignUpDto;
 import freesia.soojoob.user.dto.UpdateUser;
 import freesia.soojoob.user.dto.UserInfo;
+import freesia.soojoob.user.exception.NoExistAuthenticateException;
 import freesia.soojoob.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -28,15 +31,17 @@ public class UserController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<CommonResponse> updateUser(@RequestBody UpdateUser updateUser) {
+    public ResponseEntity<CommonResponse> updateUser(@RequestBody UpdateUser updateUser, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        checkLogin(userDetails);
         return ResponseEntity.ok(
-                CommonResponse.getSuccessResponse(getStatusCode(HttpStatus.OK), "회원 정보를 수정했습니다", userService.editUser(updateUser))
+                CommonResponse.getSuccessResponse(getStatusCode(HttpStatus.OK), "회원 정보를 수정했습니다", userService.editUser(updateUser, userDetails))
         );
     }
 
     @DeleteMapping
-    public ResponseEntity<CommonResponse> deleteUser() {
-        userService.deleteUser(1L);
+    public ResponseEntity<CommonResponse> deleteUser(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        checkLogin(userDetails);
+        userService.deleteUser(userDetails.getUser().getId());
         return ResponseEntity.noContent().build();
     }
 
@@ -47,7 +52,26 @@ public class UserController {
         );
     }
 
+    @GetMapping
+    public ResponseEntity<CommonResponse> findUserDetail(
+            @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        checkLogin(userDetails);
+
+        return ResponseEntity.ok(
+                CommonResponse.getSuccessResponse(getStatusCode(HttpStatus.OK), "해당 유저정보를 전송했습니다 !", userService.findUserDetail(userDetails))
+        );
+
+    }
+
     private int getStatusCode(HttpStatus status) {
         return status.value();
+    }
+
+    private void checkLogin(
+            @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        System.out.println(userDetails);
+        if (userDetails == null) {
+            throw new NoExistAuthenticateException();
+        }
     }
 }

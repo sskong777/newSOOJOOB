@@ -1,10 +1,15 @@
 package freesia.soojoob.record.entity;
 
+import freesia.soojoob.plogging.entity.Plogging;
+import freesia.soojoob.user.entity.User;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
 import javax.persistence.*;
 
 @Entity
 @Getter
+@RequiredArgsConstructor
 @Table(name = "records")
 
 public class Record {
@@ -15,7 +20,7 @@ public class Record {
     private int id;
 
     @Column(name="total_distance")
-    private int totalDistance;
+    private double totalDistance;
 
     @Column(name="total_trash_count")
     private int totalTrashCount;
@@ -27,5 +32,29 @@ public class Record {
     private int badgeCount;
 
     @Column(name="exp")
-    private int exp;
+    private double exp;
+
+    @OneToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    public Record(User user) {
+        this.user = user;
+        this.totalDistance = 0.0;
+        this.totalTrashCount = 0;
+        this.badgeCount = 0;
+        this.totalTimeRecord = 0;
+        this.exp = 36.5;
+    }
+
+    public void updateRecord(Plogging plogging){
+        this.totalDistance += plogging.getDistance();
+        this.totalTimeRecord += plogging.getTimeRecord();
+        this.totalTrashCount += plogging.getTrashCount();
+        this.exp += 0.1;
+
+        if (this.exp > 99.9){
+            this.exp = 99.9;
+        }
+    }
 }
